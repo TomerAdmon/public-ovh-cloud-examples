@@ -5,6 +5,22 @@ variable "region" {
   type        = string
 }
 
+variable "endpoint" {
+  description = "database endpoint for application"
+  type        = string
+}
+
+variable "password" {
+  description = "database password"
+  type        = string
+}
+
+variable "region" {
+  description = "Region"
+  type        = string
+}
+
+
 variable "subnet" {
   description = "Subnet parameters"
   type = object({

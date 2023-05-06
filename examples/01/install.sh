@@ -1,4 +1,6 @@
 #!/bin/bash 
+export ENDPOINT = ${var.endpoint}
+export PASSWORD = ${var.password}
 
 sudo apt-get install git -y
 sudo apt-get install nodejs -y

@@ -8,6 +8,8 @@ module "bastion" {
   //depends_on = [module.keypair, module.network]
   depends_on = [module.keypair]
   instance   = var.bastion
+  endpoint = var.endpoint
+  password = var.password
 }
 
 # module "floatip" {
