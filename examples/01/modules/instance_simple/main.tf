@@ -1,4 +1,5 @@
 resource "openstack_compute_instance_v2" "simple_instance" {
+  // size might be B2-7 
   name            = var.instance.name
   region          = var.instance.region
   flavor_name     = var.instance.flavor
@@ -8,6 +9,6 @@ resource "openstack_compute_instance_v2" "simple_instance" {
 
   network {
     //name = var.instance.network_name
-    name = "Ext-Net"
+    name = "pci-hil-vin-01"
   }
 }
