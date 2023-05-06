@@ -1,6 +1,6 @@
 #!/bin/bash 
-export ENDPOINT = %s
-export PASSWORD = %s
+export ENDPOINT=%s
+export PASSWORD=%s
 
 echo this is from the script itself!!
 echo $ENDPOINT
