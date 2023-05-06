@@ -1,6 +1,6 @@
 #!/bin/bash 
-export ENDPOINT = ${var.endpoint}
-export PASSWORD = ${var.password}
+export ENDPOINT = %s
+export PASSWORD = %s
 
 echo this is from the script itself!!
 echo $ENDPOINT
