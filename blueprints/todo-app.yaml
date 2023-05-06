@@ -25,9 +25,6 @@ inputs:
       }
 # blueprint outputs define which data that was generated during environment provisioning will be returned to the user, API or CI.
 outputs:
-  vm_ip:
-    value: '{{ .grains.virtual-machine.outputs.bastion_private_ip }}'
-    quick: true
   application url:
     value: '{{ .grains.virtual-machine.outputs.bastion_private_ip }}:3000'
     quick: true
