@@ -1,10 +1,3 @@
-# Region
-
-variable "region" {
-  description = "Region"
-  type        = string
-}
-
 variable "endpoint" {
   description = "database endpoint for application"
   type        = string
