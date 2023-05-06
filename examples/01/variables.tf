@@ -33,7 +33,6 @@ variable "bastion" {
   description = "Bastion Parameters"
   type = object({
     region       = string
-    network_name = string
     keypair_name = string
     name         = string
     flavor       = string
