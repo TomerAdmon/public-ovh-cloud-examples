@@ -1,11 +1,3 @@
-# module "network" {
-#   source  = "./modules/private_network"
-#   region  = var.region
-#   network = var.network
-#   subnet  = var.subnet
-#   router  = var.router
-# }
-
 module "keypair" {
   source  = "./modules/ssh_keypair"
   keypair = var.keypair

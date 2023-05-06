@@ -8,7 +8,6 @@ resource "openstack_compute_instance_v2" "simple_instance" {
   # security_groups = ["default"]
 
   network {
-    //name = var.instance.network_name
     name = "Ext-Net"
   }
 }
