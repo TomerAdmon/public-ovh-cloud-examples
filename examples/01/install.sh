@@ -1,3 +1,5 @@
+#!/bin/bash 
+
 sudo apt-get install git -y
 sudo apt-get install nodejs -y
 sudo apt install npm -y
