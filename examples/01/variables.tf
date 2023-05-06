@@ -7,12 +7,12 @@ variable "region" {
 
 # Network - Private Network
 
-variable "network" {
-  description = "Private Network Parameters"
-  type = object({
-    name = string
-  })
-}
+# variable "network" {
+#   description = "Private Network Parameters"
+#   type = object({
+#     name = string
+#   })
+# }
 
 # Network - Subnet
 
