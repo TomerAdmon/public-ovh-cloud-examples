@@ -9,6 +9,6 @@ resource "openstack_compute_instance_v2" "simple_instance" {
 
   network {
     //name = var.instance.network_name
-    name = "pci-hil-vin-01"
+    name = "Ext-Net"
   }
 }
