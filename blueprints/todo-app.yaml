@@ -1,0 +1,106 @@
+spec_version: 2
+description: Auto generated blueprint for terraform module 01
+# blueprint inputs can be provided by the user, API or CI plugin when creating an environment from this blueprint.
+inputs:
+  bastion:
+    type: string
+    default: >-
+      {
+        "region"      : "US-EAST-VA-1",
+        "keypair_name": "myMainKeypair",
+        "name"        : "bastion",
+        "flavor"      : "b2-7",
+        "image"       : "Ubuntu 20.04",
+        "user"        : "ubuntu"
+      }
+
+  subnet:
+    type: string
+    default: >-
+      {
+      "name"       : "mySubnet",
+      "cidr"       : "192.168.12.0/24",
+      "dhcp_start" : "192.168.12.100",
+      "dhcp_end"   : "192.168.12.254"
+      }
+# blueprint outputs define which data that was generated during environment provisioning will be returned to the user, API or CI.
+outputs:
+  vm_ip:
+    value: '{{ .grains.virtual-machine.outputs.bastion_private_ip }}'
+    quick: true
+  application url:
+    value: '{{ .grains.virtual-machine.outputs.bastion_private_ip }}:3000'
+    quick: true
+
+grains:
+  mysql:
+    kind: terraform
+    spec:
+      source:
+        store: infra-portal
+        path: assets/terraform/aws/rds
+      agent:
+        name: demo-prod
+        service-account: app-sa
+      inputs:
+        - sandbox_id: '{{ sandboxid | downcase }}'
+        - size: small
+        - allocated_storage: 20
+        - db_name: todos_db
+        - username: root
+        - password: root
+        - vpc_id: vpc-02e3bca90b081cd0f
+        - region: us-east-1
+      outputs:
+        - hostname
+        - connection_string
+        - password
+  
+  virtual-machine:
+    kind: terraform
+    depends-on: mysql
+    spec:
+      tags:
+        auto-tag: false
+      source:
+        store: public-cloud-examples
+        path: examples/01
+      agent:
+        name: gcp-gke-dev
+      inputs:
+      - bastion: '{{ .inputs.bastion }}'
+      - keypair: >- 
+                    {
+                      "name"                 : "myMainKeypair",
+                      "main_region"          : "US-EAST-VA-1",
+                      "to_reproduce_regions" : [],
+                      "keys_path"            : "."
+                    }
+      - region: US-EAST-VA-1
+      - subnet: '{{ .inputs.subnet }}'
+      - endpoint: '{{ .grains.mysql.outputs.hostname }}'
+      - password: '{{ .grains.mysql.outputs.password }}'
+      # The environment variables declared in this section will be available during the grain deployment as well as the grain destroy phase
+      # env-vars:
+      # - VAR_NAME: var value
+      env-vars:
+        # - OVH_ENDPOINT: '{{ .params.ovh-endpoint }}'
+        - OVH_APPLICATION_KEY: '{{ .params.ovh-application-key }}'
+        - OVH_APPLICATION_SECRET: '{{ .params.ovh-application-secret }}'
+        - OVH_CONSUMER_KEY: '{{ .params.ovh-cunsumer-key }}'
+        - OS_AUTH_URL: https://auth.cloud.ovh.us/v3
+        - OS_IDENTITY_API_VERSION: 3
+        - OS_USER_DOMAIN_NAME: '{{ .params.ovh-user-domain-name }}'
+        - OS_PROJECT_DOMAIN_NAME: '{{ .params.ovh-project-domain-name }}'
+        - OS_PROJECT_DOMAIN_ID: '{{ .params.ovh-project-domain-name }}'
+        - OS_TENANT_ID: '{{ .params.ovh-tenant-id }}'
+        - OS_TENANT_NAME: '{{ .params.ovh-tenant-name }}'
+        - OS_USERNAME: '{{ .params.ovh-username }}'
+        - OS_PASSWORD: '{{ .params.ovh-password }}'
+        - OS_REGION_NAME: US-EAST-VA-1
+        - OS_DEBUG: 1
+      outputs:
+      - bastion_floating_ip
+      - bastion_private_ip
+    # The terraform version that will be used to deploy the module
+    tf-version: 1.3.6
