@@ -1,10 +1,10 @@
-module "network" {
-  source  = "./modules/private_network"
-  region  = var.region
-  network = var.network
-  subnet  = var.subnet
-  router  = var.router
-}
+# module "network" {
+#   source  = "./modules/private_network"
+#   region  = var.region
+#   network = var.network
+#   subnet  = var.subnet
+#   router  = var.router
+# }
 
 module "keypair" {
   source  = "./modules/ssh_keypair"
@@ -13,7 +13,8 @@ module "keypair" {
 
 module "bastion" {
   source     = "./modules/instance_simple"
-  depends_on = [module.keypair, module.network]
+  //depends_on = [module.keypair, module.network]
+  depends_on = [module.keypair]
   instance   = var.bastion
 }
 
