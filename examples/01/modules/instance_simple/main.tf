@@ -5,6 +5,7 @@ resource "openstack_compute_instance_v2" "simple_instance" {
   flavor_name     = var.instance.flavor
   image_name      = var.instance.image
   key_pair        = var.instance.keypair_name
+  user_data   = file("scripts/install.sh")
   # security_groups = ["default"]
 
   network {
