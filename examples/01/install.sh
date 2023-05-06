@@ -1,6 +1,7 @@
-apt-get install git -y
-apt-get install nodejs -y
-git clone https://github.com/jason-michael/express-mysql-todo.git
+sudo apt-get install git -y
+sudo apt-get install nodejs -y
+sudo apt install npm -y
+git clone https://github.com/TomerAdmon/express-mysql-todo.git
 cd express-mysql-todo
-npm install
-npm start
+sudo npm install
+nohup node server.js &
