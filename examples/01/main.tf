@@ -10,11 +10,11 @@ module "bastion" {
   instance   = var.bastion
 }
 
-module "floatip" {
-  source     = "./modules/floating_ip"
-  depends_on = [module.bastion]
-  floatip = {
-    region       = var.region
-    component_id = module.bastion.instance_id
-  }
-}
+# module "floatip" {
+#   source     = "./modules/floating_ip"
+#   depends_on = [module.bastion]
+#   floatip = {
+#     region       = var.region
+#     component_id = module.bastion.instance_id
+#   }
+# }
