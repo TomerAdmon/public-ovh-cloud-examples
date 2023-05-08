@@ -28,6 +28,9 @@ outputs:
   application url:
     value: '{{ .grains.virtual-machine.outputs.bastion_private_ip }}:3000'
     quick: true
+database password:
+    value: '{{ .grains.mysql.outputs.password }}'
+    quick: false
 
 grains:
   mysql:
