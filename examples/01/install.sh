@@ -3,7 +3,7 @@
 END=$(echo %s | sed 's~:[[:digit:]]\+~~g')
 
 export ENDPOINT=$END
-export PASSWORD=%s
+export PASSWORD="%s"
 
 echo this is from the script itself!!
 echo $ENDPOINT
