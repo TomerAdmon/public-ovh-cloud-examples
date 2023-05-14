@@ -1,0 +1,65 @@
+spec_version: 2
+description: Simple block storage in ovh public cloud
+# blueprint inputs can be provided by the user, API or CI plugin when creating an environment from this blueprint.
+inputs:
+  bs_name:
+    type: string
+    default: "my-block-storage-volume"
+  bs_size:
+    type: string
+    default: "100"
+  region:
+    type: string
+    default: "US-EAST-VA-1"
+  service_name:
+    type: string
+    default: ""
+  agent:
+    type: agent
+# blueprint outputs define which data that was generated during environment provisioning will be returned to the user, API or CI.
+outputs:
+  service_name:
+    value: '{{ .grains.block-storage.outputs.service_name }}'
+    quick: true
+  volume_id:
+    value: '{{ .grains.block-storage.outputs.volume_id }}'
+    quick: true
+grains:
+  block-storage:
+    kind: terraform
+    spec:
+      source:
+        store: public-cloud-examples
+        path: storage/block-storage
+      agent:
+      # The Torque agent that will be used to provision the environment.
+        name: '{{ .inputs.agent }}'
+        # A service account annotated with a role ARN with permissions to run the asset
+        # service-account: <service-account-name>
+      inputs:
+      - bs_name: '{{ .inputs.bs_name }}'
+      - bs_size: '{{ .inputs.bs_size }}'
+      - region: '{{ .inputs.region }}'
+      - service_name: '{{ .inputs.service_name }}'
+      # The environment variables declared in this section will be available during the grain deployment as well as the grain destroy phase
+      # env-vars:
+      # - VAR_NAME: var value
+      env-vars: 
+        - OVH_ENDPOINT: '{{ .params.ovh-endpoint }}'
+        - OVH_APPLICATION_KEY: '{{ .params.ovh-application-key }}'
+        - OVH_APPLICATION_SECRET: '{{ .params.ovh-application-secret }}'
+        - OVH_CONSUMER_KEY: '{{ .params.ovh-cunsumer-key }}'
+        - OS_AUTH_URL: https://auth.cloud.ovh.us/v3
+        - OS_IDENTITY_API_VERSION: 3
+        - OS_USER_DOMAIN_NAME: '{{ .params.ovh-user-domain-name }}'
+        - OS_PROJECT_DOMAIN_NAME: '{{ .params.ovh-project-domain-name }}'
+        - OS_TENANT_ID: '{{ .params.ovh-tenant-id }}'
+        - OS_TENANT_NAME: '{{ .params.ovh-tenant-name }}'
+        - OS_USERNAME: '{{ .params.ovh-username }}'
+        - OS_PASSWORD: '{{ .params.ovh-password }}'
+        - OS_REGION_NAME: '{{ .params.ovh-region }}'
+      outputs:
+      - service_name
+      - volume_id
+    # The terraform version that will be used to deploy the module
+    tf-version: 1.3.6
