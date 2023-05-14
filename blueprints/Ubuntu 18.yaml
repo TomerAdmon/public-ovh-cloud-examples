@@ -1,0 +1,83 @@
+spec_version: 2
+inputs:
+  compute_cluster_host:
+    type: string
+    default: 172.17.46.52
+  compute_cluster_name:
+    type: string
+    default: Cluster1
+  datacenter_name:
+    type: string
+    default: pcc-147-135-13-160_datacenter1155
+  datastore_name:
+    type: string
+    default: storageLocal_172.17.46.52 
+  linked_clone:
+    type: string
+    default: false
+  networks:
+    type: string
+    default: vxw-dvs-38-virtualwire-3-sid-5002-Dc1155_5002
+    description: Provided interfaces
+  virtual_machine_folder:
+    type: string
+    default: quali-torque
+  virtual_machine_name:
+    type: string
+    default: torque-new-vm
+  virtual_machine_template_name:
+    type: string
+    default: Ubuntu_1804
+  wait_for_ip:
+    type: string
+    default: 120
+  wait_for_net:
+    type: string
+    default: 120
+# blueprint outputs define which data that was generated during environment provisioning will be returned to the user, API or CI.
+outputs:
+  vsphere_virtual_machine_default_ip_address:
+    value: '{{ .grains.vm.outputs.vsphere_virtual_machine_default_ip_address }}'
+    quick: true
+  vsphere_virtual_machine_name:
+    value: '{{ .grains.vm.outputs.vsphere_virtual_machine_name }}'
+    quick: true
+  vm user password:
+    value: root & s0m3password
+    quick: true
+grains:
+  vm:
+    kind: terraform
+    spec:
+      source:
+        store: public-cloud-examples
+        path: vm-from-template-wait-for-ip-no-creds
+      agent:
+      # The Torque agent that will be used to provision the environment.
+        name: ovhcloud-vcetner
+        # A service account annotated with a role ARN with permissions to run the asset
+        # service-account: <service-account-name>
+      inputs:
+      - compute_cluster_host: '{{ .inputs.compute_cluster_host }}'
+      - compute_cluster_name: '{{ .inputs.compute_cluster_name }}'
+      - datacenter_name: '{{ .inputs.datacenter_name }}'
+      - datastore_name: '{{ .inputs.datastore_name }}'
+      - hostname: 	'{{ .params.ovh-vcenter-host }}'
+      - linked_clone: '{{ .inputs.linked_clone }}'
+      - networks: '{{ .inputs.networks }}'
+      - password: '{{ .params.ovh-vcenter-password }}'
+      - username: '{{ .params.ovh-vcenter-user }}'
+      - virtual_machine_folder: '{{ .inputs.virtual_machine_folder }}'
+      - virtual_machine_name: '{% if .inputs.virtual_machine_name == "torque-new-vm" %}original-name{% else %}other-name{% endif %}'
+      - virtual_machine_template_name: '{{ .inputs.virtual_machine_template_name }}'
+      - wait_for_ip: '{{ .inputs.wait_for_ip }}'
+      - wait_for_net: '{{ .inputs.wait_for_net }}'
+      # The environment variables declared in this section will be available during the grain deployment as well as the grain destroy phase
+      # env-vars:
+      # - VAR_NAME: var value
+      env-vars: []
+      outputs:
+      - vsphere_virtual_machine_default_ip_address
+      - vsphere_virtual_machine_name
+    # The terraform version that will be used to deploy the module
+    tf-version: 1.4.6
