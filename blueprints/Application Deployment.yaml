@@ -1,5 +1,5 @@
 spec_version: 2
-description: Auto generated blueprint for terraform module 01
+description: Application deployment based on AWS RDS and OVHCloud Virtual machine
 # blueprint inputs can be provided by the user, API or CI plugin when creating an environment from this blueprint.
 inputs:
   bastion:
