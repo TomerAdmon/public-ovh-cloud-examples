@@ -39,7 +39,7 @@ grains:
       - password: '{{ .params.ovh-vcenter-password }}'
       - username: '{{ .params.ovh-vcenter-user }}'
       - virtual_machine_folder: quali-torque
-      - virtual_machine_name: '{% if .inputs.virtual_machine_name == "torque-new-vm" %}original-name{% else %}other-name{% endif %}'
+      # - virtual_machine_name: '{% if .inputs.virtual_machine_name == "torque-new-vm" %}original-name{% else %}other-name{% endif %}'
       - virtual_machine_template_name: Ubuntu_1804
       - wait_for_ip:  120
       - wait_for_net: 120
