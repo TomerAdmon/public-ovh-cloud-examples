@@ -35,7 +35,7 @@ grains:
       - datastore_name: storageLocal_172.17.46.52 
       - hostname: 	'{{ .params.ovh-vcenter-host }}'
       - linked_clone: false
-      - networks: vxw-dvs-38-virtualwire-3-sid-5002-Dc1155_5002
+      - networks: vxw-dvs-38-virtualwire-4-sid-5003-Dc1155_5003
       - password: '{{ .params.ovh-vcenter-password }}'
       - username: '{{ .params.ovh-vcenter-user }}'
       - virtual_machine_folder: quali-torque
